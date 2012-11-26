@@ -56,7 +56,7 @@ Account* CreateAccount(const string& type,
 		}
 }
 
-/*
+/* 파일 입출력 파트
 bool SaveAccounts(const vector<Account*>& accounts, const string& filename){
 	ofstream f;
 	

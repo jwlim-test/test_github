@@ -4,9 +4,9 @@
 int main() 
 {
 	vector<Account*> accounts;
-	vector<Account> box1;
-	vector<SavingAccount> box2;
-	box1.reserve(50);
+	vector<Account> box1;		//Account 클래스를 저장하는 벡터
+	vector<SavingAccount> box2;	//SavingAccount 클래스를 저장하는 벡터
+	box1.reserve(50);			//resize로 인해 좌표가 변경되는 것을 막기 위해 reserve
 	box2.reserve(50);
 
 	string cmd;

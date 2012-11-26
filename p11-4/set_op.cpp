@@ -67,32 +67,3 @@ set<T> Cast(const set<S>& s){
 	}
 	return temp;
 }
-
-/*
-
-template <typename T>
-vector<T> operator+(const set<T>& lhs, const set<T>& rhs){
-	vector<T> temp;
-	typename set<T>::const_iterator it;
-	for(it = lhs.begin(); it != lhs.end(); ++it){
-		temp.push_back(*it);
-	}
-	for(it = rhs.begin(); it != rhs.end(); ++it){
-		if(find(temp.begin(),temp.end(),*it) == temp.end()) temp.push_back(*it);
-		else continue;
-	}
-	return temp;
-}
-
-template <typename T>
-ostream& operator<<(ostream& os, const vector<T>& s){
-	os << "{ ";
-	typename vector<T>::const_iterator it;
-	for(it = s.begin(); it != s.end(); ++it){
-		os << *it << " ";
-	}
-	os << "}";
-
-	return os;
-}
-*/
