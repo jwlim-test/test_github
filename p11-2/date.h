@@ -20,18 +20,22 @@ class Date{
     private:
         
         static int GetDaysInYear(int year){
+            //윤년일 경우 366일을 반환 
             if(year%4==0 && year%100!=0)
                                          return 366; 
+             
             else if(year%400==0) 
                                  return 366;
-                         
+            //윤년이 아닐 경우 365일을 반환 
             else return 365; 
         }
         static int ComputeDayFromYearStart(int year, int month, int day){
             int Feb_, sum=0;
+            //윤년인지 아닌지에 따라 2월의 달 수 를 결정 
             if(GetDaysInYear(year)==365) Feb_=28;
             else Feb_=29;
     
+            //총 일 수를 계산한다 
             for(int i=1; i<month; i++){
                 if(i==1) sum+=31;
                 else if(i==2) sum+=Feb_;
@@ -54,6 +58,7 @@ class Date{
         
         int year_,month_,day_;
 };
+
 
 struct InvalidDataException {
     string input_date;
