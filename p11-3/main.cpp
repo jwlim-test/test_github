@@ -19,7 +19,8 @@ int main() {
         accounts.push_back(acc);
       }
     } else if (cmd == "delete") {
-      string name;      cin >> name;
+      string name;
+      cin >> name;
       for (int i = 0; i < accounts.size(); ++i) {
         if (accounts[i]->name() == name) {
           accounts.erase(accounts.begin() + i);
