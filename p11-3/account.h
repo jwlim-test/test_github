@@ -30,7 +30,7 @@ public:
     
 	virtual const char* type() const { return "saving"; }
 	// 이 타입의 계좌는 복리로 계산.
-	virtual unsigned int ComputeExpectedBalance( unsigned int n_years_later) const;
+	virtual unsigned int ComputeExpectedBalance(unsigned int n_years_later) const;
 };    
 
 Account* CreateAccount(const std::string& type,

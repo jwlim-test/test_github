@@ -21,7 +21,7 @@ bool Account::Withdraw(unsigned int amount){
 
 unsigned int Account::ComputeExpectedBalance(unsigned int n_years_later) const{
 	double ret = balance_;
-	for (int i = 0; i<n_years_later; ++i){
+	for (int i = 0; i<n_years_later; ++i) {
 		ret += balance_ * interest_rate_;
 	}
 	return static_cast<unsigned int>(ret);
@@ -34,7 +34,7 @@ SavingAccount::~SavingAccount(){}
 
 unsigned int SavingAccount::ComputeExpectedBalance( unsigned int n_years_later) const{
 	double ret = balance_;
-	for (int i = 0; i < n_years_later; ++i){
+	for (int i = 0; i < n_years_later; ++i) {
 		ret *= (1 + interest_rate_);
 	}
 	return static_cast<unsigned int>(ret);
@@ -45,8 +45,7 @@ Account* CreateAccount(const std::string& type,
 		if (type == "normal"){
 			Account* ret = new Account(name,balance,interest_rate);
 			return ret;
-		}
-		else{
+		}else {
 			SavingAccount* ret = new SavingAccount(name,balance,interest_rate);
 			return ret;
 		}

@@ -52,7 +52,7 @@ bool WorldClock::SetTimezone(const std::string& timezone){
 	if (timezone_.find(timezone) == timezone_.end()) return false;
 
 	hour_ -= time_difference_;	//시차 재조정 (+0으로)
-	if(hour_ < 0) hour_ += 24;
+	if (hour_ < 0) hour_ += 24;
 	time_difference_ = timezone_[timezone];
 	hour_ += time_difference_;	//시차 적용
 	hour_ %= 24;
@@ -61,7 +61,7 @@ bool WorldClock::SetTimezone(const std::string& timezone){
 
 std::ostream& operator<<(std::ostream& os, const WorldClock& c){
 	os << c.hour() << ":" << c.minute() << ":" << c.second();
-	if(c.time_difference() != 0) 
+	if (c.time_difference() != 0) 
 		os << " (+" << c.time_difference() << ")";
 	return os;
 }
