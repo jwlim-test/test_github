@@ -46,5 +46,7 @@ int main() {
       }
     } 
   }
+  for (int i=0;i<accounts.size();++i) // 메모리 해제 
+  	delete accounts[i];
   return 0;
 }
