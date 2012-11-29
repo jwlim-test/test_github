@@ -1,5 +1,6 @@
 #include "account.h"
 
+using namespace std;
 
 int main() 
 {
@@ -17,8 +18,7 @@ int main()
 			int amount;
 			double interest_rate;
 			cin >> name >> type >> amount >> interest_rate;
-			Account* acc = CreateAccount(type, name, amount, interest_rate
-				, box1, box2);
+			Account* acc = CreateAccount(type, name, amount, interest_rate);
 			if (acc == NULL) {
 				cout << "Error: " << type << ", " << name << endl;
 			} else {
@@ -49,20 +49,8 @@ int main()
 					<< accounts[i]->ComputeExpectedBalance(n_year) << "\t"
 					<< accounts[i]->interest_rate() << endl;
 			}
-		/*
-		} else if (cmd == "save") {
-			string filename;
-			SaveAccounts(accounts, filename);
-		} else if (cmd == "load") {
-			string filename;
-			cin >> filename;
-			if (LoadAccounts(filename, &accounts,box1,box2) == false) {
-				cout << "Error in loading accounts from  " << filename << endl;
-			}
-		}
-		*/
 		}
 	}
-	 accounts.clear();
-	 return 0;
+	for (int i = 0; i < accounts.size(); ++i) delete accounts[i];
+	return 0;
 }

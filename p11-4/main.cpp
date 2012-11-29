@@ -1,6 +1,7 @@
 #include "set_op.h"
-#include "set_op.cpp"
 #include <map>
+
+using namespace std;
 
 int main() {
 	map<string, set<double> > sets;

@@ -3,8 +3,6 @@
 #include <set>
 #include <stdlib.h>
 
-using namespace std;
-
 class Date {
 public:
 	Date();
@@ -23,11 +21,11 @@ private:
 };
 
 struct InvalidDateException {
-	string input_date;
-	InvalidDateException(const string& str) : input_date(str) {}
+	std::string input_date;
+	InvalidDateException(const std::string& str) : input_date(str) {}
 };
 
 // yyyy.mm.dd 형식으로 입출력.
 // 사용자 입력 오류시 >> operator는 InvalidDateException을 발생할 수 있음.
-ostream& operator<<(ostream& os, const Date& c);
-istream& operator>>(istream& is, Date& c);
+std::ostream& operator<<(std::ostream& os, const Date& c);
+std::istream& operator>>(std::istream& is, Date& c);

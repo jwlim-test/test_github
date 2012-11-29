@@ -1,5 +1,7 @@
 #include "world_clock.h"
 
+using namespace std;
+
 int main() {
 	WorldClock clock; 
 	string cmd;
