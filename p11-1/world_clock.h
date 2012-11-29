@@ -8,67 +8,86 @@ using namespace std;
 
 class WorldClock {
     public:
-        WorldClock() : HOUR(0), MINUTE(0), SECOND(0) { }
-        WorldClock(int hour, int minute, int second) {
+        WorldClock() : HOUR(0), MINUTE(0), SECOND(0) { time_difference_ = 0; }     //기본 constructor == 시,분,초,시차를 모두 0으로 셋팅 
+        WorldClock(int hour, int minute, int second) {                     
             HOUR = hour;
-            MINUTE = minute;
+            MINUTE = minute;                    // parametor로 받은 hour,minute,second로 시,분,초 셋팅, 시차는 0으로 셋팅 
             SECOND = second;
+            time_difference_ = 0;
         }
-        void Tick(int seconds = 1){
+        void Tick(int seconds = 1){             // dafalut값으로 1을 설정해놓고 parametor가 들어오지않을 경우 1로 받아들여 계산한다. 
             if(seconds == 1){
                 SECOND += 1;
-            }
-            else {
-                int Plus_h, Plus_m, Plus_s, last1, last2;
-                Plus_h = seconds / 3600;
-                last1 = seconds % 3600;
-                Plus_m = last1 / 60;
-                last2 = last1 % 60;
-                Plus_s = last2;
-            
-                HOUR += Plus_h;
-                MINUTE += Plus_m;
-                SECOND += Plus_s;
-                
-                if(SECOND < 0){
+            if(SECOND < 0){
                     MINUTE -= 1;
                     SECOND += 60;
                 }
                 if(MINUTE < 0){
                     HOUR -=1;
-                    MINUTE += 60;
-                }
-                if(HOUR < 0){
-                    HOUR += 24; 
-                }
-                if(HOUR >= 24)
-                    HOUR -= 24;
-                if(MINUTE >= 60){
-                    HOUR += 1;
-                    MINUTE -= 60;
-                }
+                    MINUTE += 60;               //1이 들어오면 초에다가 1을 추가시킨다. 
+                }                               //if문 순서가 second -> minute -> hour순으로 해야한다 이유는 
+                while(HOUR < 0){                //second를 올리고 초가60이 넘으면 minute를 올리고 분이60이 넘으면 hour를 올리는 식으로 하여야함! 
+                    HOUR += 24;                 //-값일때도 순서는 같은것이 second가 음수면 minute에서 -1하고 second +60해주는 방식으로 해야한다. 
+                }                                
                 if(SECOND >= 60){
                     MINUTE += 1;
                     SECOND -=60;
                 }
+                if(MINUTE >= 60){
+                    HOUR += 1;
+                    MINUTE -= 60;
+                }
+                if(HOUR >= 24)
+                    HOUR -= 24;
+            
+            }
+            else {                              // tick 1이아닌 다른 값이 들어올경우 hour, minute, second 추가값을 다 나누어주어야한다. 
+                int Plus_h, Plus_m, Plus_s, last1, last2;
+                Plus_h = seconds / 3600;        // 받은 seconds를 3600으로 나누면 hour이되고 
+                last1 = seconds % 3600;         // 3600으로 나눈 나머지를 
+                Plus_m = last1 / 60;            // 60으로 나누면 minute이다 
+                last2 = last1 % 60;             // 60으로 나눈 나머지가 
+                Plus_s = last2;                 // minute가 된다. 
+            
+                HOUR += Plus_h;                 
+                MINUTE += Plus_m;               // 들어온 seconds를 hour,minute,second로 분류한것은 증가값이므로 
+                SECOND += Plus_s;               // 원래 시간에 각각 플러스해준다. 
+                if(SECOND < 0){
+                    MINUTE -= 1;
+                    SECOND += 60;               // 이것 또한 순서를 second -> minute -> hour로해서  
+                }                               // second 음수이면 minute에서 하나빼고 second 60올리고  
+                if(MINUTE < 0){
+                    HOUR -=1;                   // minute 음수이면 hour에서 하나빼고 minute 60올린다. 
+                    MINUTE += 60;
+                }
+                while(HOUR < 0){
+                    HOUR += 24;                 // hour가 음수이면 그자체에서 +24 
+                }
+                if(SECOND >= 60){
+                    MINUTE += 1;                // seocnd가 60 이넘으면 minute 하나추가하고 second -60 
+                    SECOND -=60;                // 같은방식으로 minute, hour 처리 
+                }
+                if(MINUTE >= 60){
+                    HOUR += 1;
+                    MINUTE -= 60;
+                }
+                if(HOUR >= 24)
+                    HOUR -= 24;
             }    
         }
-        bool SetTime(int hour, int minute, int second){
+        bool SetTime(int hour, int minute, int second){   //  hour, minute, second가 올바른 값인지 확인 
             if(hour >= 24  || minute >= 60 || second >= 60)
                 return false;
             else {
                 HOUR = hour;
-                MINUTE = minute;
-                SECOND = second;
+                MINUTE = minute;                    // 올바르지 않다면 false return  
+                SECOND = second;                    // 올바르다면 그값을 private 변수에 저장. 
                 return true;
             }
         }
         static void AddTimezoneInfo(const string& city, int diff);
 // 잘못된 값 입력시 false 리턴하고 원래 시간은 바뀌지 않음.
-        WorldClock SET(){
-            WorldClock WC(set_HOUR, MINUTE, SECOND);
-            return WC;
-        }
+
         bool SetTimezone(const string& timezone);   
         int hour() const { return HOUR; }
         int minute() const { return MINUTE; }
