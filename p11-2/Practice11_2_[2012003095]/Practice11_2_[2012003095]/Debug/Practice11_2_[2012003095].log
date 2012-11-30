@@ -1,0 +1,20 @@
+﻿Build started 2012-11-23 오후 4:42:21.
+     1>Project "N:\cygwin\11\2\Practice11_2_[2012003095]\Practice11_2_[2012003095]\Practice11_2_[2012003095].vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "Debug\Practice11_2_[2012003095].unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         All outputs are up-to-date.
+       ManifestResourceCompile:
+         All outputs are up-to-date.
+       Link:
+         All outputs are up-to-date.
+       Manifest:
+         All outputs are up-to-date.
+       FinalizeBuildStatus:
+         Deleting file "Debug\Practice11_2_[2012003095].unsuccessfulbuild".
+         Touching "Debug\Practice11_2_[2012003095].lastbuildstate".
+     1>Done Building Project "N:\cygwin\11\2\Practice11_2_[2012003095]\Practice11_2_[2012003095]\Practice11_2_[2012003095].vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.13
