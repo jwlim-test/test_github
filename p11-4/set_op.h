@@ -1,12 +1,11 @@
 #include <set>
 #include <iostream>
 #include <stdlib.h>
-using namespace std;
 template <typename T>
-inline set<T> operator+(const set<T>& lhs, const set<T>& rhs)
+inline std::set<T> operator+(const std::set<T>& lhs, const std::set<T>& rhs)
 {
-	set<T> temp = lhs;
-	typename set<T>::iterator it;
+	std::set<T> temp = lhs;
+	typename std::set<T>::iterator it;
 	for (it = rhs.begin();it!=rhs.end();++it) // find what doesn't exist in lhs
 	{
 		if (temp.find(*it) == temp.end())
@@ -16,10 +15,10 @@ inline set<T> operator+(const set<T>& lhs, const set<T>& rhs)
 }
 
 template <typename T>
-inline set<T> operator-(const set<T>& lhs, const set<T>& rhs)
+inline std::set<T> operator-(const std::set<T>& lhs, const std::set<T>& rhs)
 {
-	set<T> temp;
-	typename set<T>::iterator it;
+	std::set<T> temp;
+	typename std::set<T>::iterator it;
 	for (it = lhs.begin();it!=lhs.end();++it)
 	{
 		if (rhs.find(*it) == rhs.end()) // if doesn't exist -> insert
@@ -28,10 +27,10 @@ inline set<T> operator-(const set<T>& lhs, const set<T>& rhs)
 	return temp;
 }
 template <typename T>
-inline set<T> operator*(const set<T>& lhs, const set<T>& rhs)
+inline std::set<T> operator*(const std::set<T>& lhs, const std::set<T>& rhs)
 {
-	set<T> temp;
-	typename set<T>::iterator it;
+	std::set<T> temp;
+	typename std::set<T>::iterator it;
 	for (it = lhs.begin();it!=lhs.end();++it)
 	{
 		if (rhs.find(*it) != rhs.end()) // if exist in both -> insert
@@ -40,9 +39,9 @@ inline set<T> operator*(const set<T>& lhs, const set<T>& rhs)
 	return temp;
 }
 template <typename T>
-inline ostream& operator<<(ostream& os, const set<T>& s)
+inline std::ostream& operator<<(std::ostream& os, const std::set<T>& s)
 {
-	typename set<T>::iterator it;
+	typename std::set<T>::iterator it;
 	os << "{ ";
 	for (it = s.begin();it!=s.end();++it)
 		os << *it << " ";	
@@ -50,7 +49,7 @@ inline ostream& operator<<(ostream& os, const set<T>& s)
 	return os;
 }
 template <typename T>
-inline istream& operator>>(istream& is, set<T>& s)
+inline std::istream& operator>>(std::istream& is, std::set<T>& s)
 {
 	int i,n;
 	is >> n;
@@ -63,26 +62,11 @@ inline istream& operator>>(istream& is, set<T>& s)
 	return is;
 }
 template <typename T, typename S>
-inline set<T> Cast(const set<S>& s)
+inline std::set<T> Cast(const std::set<S>& s)
 {
-	set<T> temp;
-	typename set<S>::iterator it;
+	std::set<T> temp;
+	typename std::set<S>::iterator it;
 	for (it = s.begin();it!=s.end();++it)
 		temp.insert(static_cast<T>(*it));
 	return temp;		
 }
-
-/*
-template <typename T>
-set<T> operator+(const set<T>& lhs, const set<T>& rhs);
-template <typename T>
-set<T> operator-(const set<T>& lhs, const set<T>& rhs);
-template <typename T>
-set<T> operator*(const set<T>& lhs, const set<T>& rhs);  
-template <typename T>
-ostream& operator<<(ostream& os, const set<T>& s);
-template <typename T>
-istream& operator>>(istream& is, set<T>& s);
-template <typename T, typename S>
-set<T> Cast(const set<S>& s);
-*/

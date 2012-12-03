@@ -1,4 +1,5 @@
 #include "account.h"
+using namespace std;
 Account::Account(const string& name, unsigned int balance, double interest_rate) : name_(name), balance_(balance), interest_rate_(interest_rate)
 {
 }
@@ -18,7 +19,8 @@ bool Account::Withdraw(unsigned int amount)
 }
 unsigned int Account::ComputeExpectedBalance(unsigned int n_years_later) const    
 {
-	return static_cast<int>(balance_+interest_rate_*static_cast<double>(balance_*n_years_later));
+	return static_cast<int>(balance_+interest_rate_*balance_*n_years_later);
+	//  static_cast<int> 안 써도 되긴 하는데 warning 뜸 
 }
 SavingAccount::SavingAccount(const string& name, int balance, double interest_rate) : Account(name,balance,interest_rate)
 {

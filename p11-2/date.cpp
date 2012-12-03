@@ -11,6 +11,8 @@ void Date::NextDay(int n)
 {
 	int date_num = ComputeDaysFrom0(year_, month_, day_),yyear=0,mmonth=1,dday=1;
 	date_num+=n;
+	// 0.1.1부터 계산하는 이유는 특정 날짜부터 어떤 날까지의 날의 수를 세어놓으면 나중에 날짜를 더하고 뺄때 그냥 +또는 -할 수 있기 때문에
+	// 그 외의 계산도 편할 것 같아서 년.월.일 -> 0.1.1부터의 거리로 변환 -> 처리 -> 년.월.일 방식으로 하려고 했음 
 	if (date_num > 0) // 0.1.1 < date
 	{
 		while (date_num >= GetDaysInYear(yyear)) // year compute

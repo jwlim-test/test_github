@@ -11,10 +11,6 @@ WorldClock::WorldClock(int hour, int minute, int second) :time_difference_(0)
 void WorldClock:: Tick(int seconds)
 {
 	second_time_+=seconds;
-	/*
-	if (time < 0) // when seconds is negative, time can be negative
-		time=time%(3600*24)+(3600*24); // i think it's ok
-	*/	
 	while(time < 0)
 		second_time_+=3600*24;
 }
