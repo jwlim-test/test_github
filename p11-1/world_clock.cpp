@@ -74,15 +74,16 @@ istream& operator>>(istream& is, WorldClock& c){
 }
 
 ostream& operator<<(ostream& os, const WorldClock& c){
-    if(c.time_difference() == 0){
-      os<<c.hour()<<":"<<c.minute()<<":"<<c.second();
-    }
-    else{
-      int hour=(c.hour()+c.time_difference())%24;
-    }
-     os<<hour<<":"<<c.minute()<<":"<<c.second()<<" (+"<<c.time_difference()<<")";
-                          }
-     return os;
+  int hour;
+  if(c.time_difference() == 0){
+    os<<c.hour()<<":"<<c.minute()<<":"<<c.second();
+  }
+  else{
+    hour=(c.hour()+c.time_difference())%24;
+    os<<hour<<":"<<c.minute()<<":"<<c.second()<<" (+"<<c.time_difference()<<")";
+  }
+  return os;
+  
 }
 
 //timezone이 있는지 확인하고 없으면 false리턴 
