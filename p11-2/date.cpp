@@ -4,23 +4,15 @@ using namespace std;
 void Date::NextDay(int n ){
     int temp=0;
     temp=ComputeDaysFromYearStart(year_,month_,day_)+n; //당해 1월1일부터 계산후 날짜까이의 일수를 저장하는 변수.
-    while(1){
-    if(temp<=0){
+    while(temp<=0){
         temp+=GetDaysInYear(year_-1);
         year_-=1;
     }
-    if(temp>0){
-        break;
-    }
-    }
-    while(1){
+    while(temp>=GetDaysInYear(year_+1)){
     if(GetDaysInYear(year_)==366){
         if(temp>365){
             year_+=1;
             temp-=366;
-        }
-        if(temp<=GetDaysInYear(year_+1)-1){
-            break;
         }
     }
     else{
@@ -28,41 +20,38 @@ void Date::NextDay(int n ){
             year_+=1;
             temp-=365;
         }
-        if(temp<=GetDaysInYear(year_+1)-1){
-            break;
-        }
     }
     }
-    int a[13]={0,31,28,31,30,31,30,31,31,30,31,30,31}; //배열에 각 월마다 일수를 저장
-    for(int i=1;i<13;++i){
-        
+    int days_in_month[13]={0,31,28,31,30,31,30,31,31,30,31,30,31}; //배열에 각 월마다 일수를 저장
+    
+    for(int month=1;month<13;++month){
         if(GetDaysInYear(year_)==366){
-            if(i!=2){
-            if(temp-a[i]<0){
+            if(month!=2){
+            if(temp-days_in_month[month]<0){
                 day_=temp+1;
-                month_=i;
+                month_=month;
                 break;
             }
             }
-            if(i==2){
-                if(temp-(a[i]+1)<0){
+            if(month==2){
+                if(temp-(days_in_month[month]+1)<0){
                     day_=temp+1;
-                    month_=i;
+                    month_=month;
                     break;
                 }
             }
-            temp-=a[i];
-            if(i==2){
+            temp-=days_in_month[month];
+            if(month==2){
                 temp-=1;
             }
         }
         else{
-            if(temp-a[i]<0){
+            if(temp-days_in_month[month]<0){
                 day_=temp+1;
-                month_=i;
+                month_=month;
                 break;
             }
-            temp-=a[i];
+            temp-=days_in_month[month];
         }
     }
 }
@@ -88,7 +77,7 @@ bool Date::SetDate(int year, int month, int day){
 }
 int Date::GetDaysInYear(int year){
     if(year%4==0&&year%100!=0)  return 366;
-    else if(year%100==0&&year%400==0) return 366;
+    else if(year%400==0) return 366;
     else return 365;
 }
 int Date::ComputeDaysFromYearStart(int year, int month, int day){
@@ -139,7 +128,7 @@ istream& operator>>(istream& is, Date& c){
         throw InvalidDateException(d);
         return is;
     }
-    if(m>=13||((m==1||m==3||m==5||m==7||m==8||m==10||m==12)&&day>31)||((m==4||m==6||m==9||m==11)&&day>=31)){
+    if(!c.SetDate(y,m,day)){
         throw InvalidDateException(d);
         return is;
     }
