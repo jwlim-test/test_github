@@ -22,5 +22,6 @@ Account* CreateAccount(const string& type,const string& name, unsigned int balan
     else if(type=="saving"){
         return new SavingAccount(name,balance,interest_rate);
     }
+    return NULL;
 }
 
