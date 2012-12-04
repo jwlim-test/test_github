@@ -1,17 +1,6 @@
 #include "account.h"
 
-/*void Account::Deposit(unsinged int amount){
-     balance_+=amount;
-}
-     
-bool Account::Withdraw(unsinged int amount){
-     if(balance_>=amount){
-                          balance-=amount;
-                          return true;
-                          }
-     else return false;
-}
-*/
+
 unsigned int Account::ComputeExpectedBalance(unsigned int n_years_late){
         // 최종 n년이 지난후에 얼마가 되는지를 계산해서 반환한다 
          double result;
@@ -38,19 +27,9 @@ unsigned int SavingAccount::ComputeExpectedBalance(unsigned int n_years_later){
 Account* CreateAccount(const string& type, const string& name, unsigned int balance, double interest_rate){
 
        // type()를 확인하여 단리의 경우 계좌 생성 
-         Account* acc=new Account(name, balance, interest_rate);
-         if(acc->type()==type) return acc;
-         
-         delete acc;
-         acc=NULL;
+         if(Account::GetTypeStr()==type) return new Account(name,balance,interest_rate);
+        
         // 복리의 경우 계좌 생성 
-         acc=new SavingAccount(name, balance, interest_rate);
-         if(acc->type()==type) return acc;
-         
-         delete acc;
-         
-         acc=NULL;
-        return acc;
-
-
+         else return new SavingAccount(name,balance,interest_rate);
+        
 }

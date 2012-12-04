@@ -14,7 +14,8 @@ class Account {
              
              virtual unsigned int ComputeExpectedBalance(unsigned int n_years_late) ;
              
-             virtual const char* type() const {return "normal";}
+             static const char* GetTypeStr(){return "normal";}
+             virtual const char* type() const{return Account::GetTypeStr();}
              const unsigned int& balance() const{return balance_;}
              const string& name() const{ return name_;}
              const double& interest_rate() const{ return interest_rate_;}

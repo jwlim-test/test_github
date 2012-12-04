@@ -51,6 +51,7 @@ int main(){
                             }
                        }
     }
-    
+    for(int i=0; i<accounts.size();i++)
+            delete accounts[i];
     return 0;
 } 
