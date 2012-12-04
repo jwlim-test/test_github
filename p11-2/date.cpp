@@ -6,10 +6,10 @@ ostream& operator<<(ostream& os, const Date& c){
   os<<c.year()<<"."<<c.month()<<"."<<c.day();
   return os;
 }
+
 istream& operator>>(istream& is, Date& c){
   string date,year,month,day;
   int leng,index[2],count= 0,y,m,d;
-  bool jud;
   is>>date;
   leng = date.length();
   for(int i=0; i<leng; i++){
@@ -35,7 +35,7 @@ istream& operator>>(istream& is, Date& c){
   m = atoi(month.c_str());
   d = atoi(day.c_str());
 
-  jud = c.SetDate(y,m,d);
+  bool jud = c.SetDate(y,m,d);
   //setdate에서 false를 리턴받으면 예외처리 
   if(jud == false){
     throw InvalidDateException(date);
@@ -44,16 +44,13 @@ istream& operator>>(istream& is, Date& c){
 }
 
 bool Date::SetDate(int year, int month, int day){
-  int arr[13] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}; // 1월에서 12월의 날짜를 배열로 저장 
+  int days_in_month[13] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}; // 1월에서 12월의 날짜를 배열로 저장 
   //윤년일경우 2월달의 날짜를 29일로 변환시킴 
-  if(year%4==0 && year%100!=0){
-    arr[2] = 29;
-  }
-  if(year%400==0){
-    arr[2] = 29;
+  if(year%4==0 && year%100!=0 || year%400 == 0){
+    days_in_month[2] = 29;
   }
   //옳은 날짜인지 판단하고 set 시킨다 
-  if(month >=1 && month<13 && day<=arr[month] && day >=1){
+  if(month >=1 && month<13 && day<=days_in_month[month] && day >=1){
     year_ = year;
     month_ = month;
     day_ = day;
@@ -62,57 +59,51 @@ bool Date::SetDate(int year, int month, int day){
   else
     return false;
 }
+
 void Date::NextDay(int n){
    int days = 0;
   //현재 날짜가 지금년도에서 몇일째인지 계산후 n을더해  days를 구함 
    days = ComputeDaysFromYearStart(year_, month_, day_)+n;
-   while(1){//day가 음수인경우 양수가 될떄까지 연도를 감소하고 해당년도의 날짜수를 days에 더한다 
-     if(days<=0){
+   while(days<=0){//day가 음수인경우 양수가 될떄까지 연도를 감소하고 해당년도의 날짜수를 days에 더한다 
        year_ = year_ -1;
        days += GetDaysInYear(year_);
-     }
-     else
-       break;
-  }
+   }
             
-   while(1){//days값이 해당년도의 날짜수보다 클경우 해당년도의 날짜수를 빼고 연도를 증가 
-     if(days>GetDaysInYear(year_)){
+   while(days>GetDaysInYear(year_)){//days값이 해당년도의 날짜수보다 클경우 해당년도의 날짜수를 빼고 연도를 증가 
        days -= GetDaysInYear(year_);
        year_ = year_ + 1;
-     }
-     else
-       break;
    }
               
-   int arr[13] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+   int days_in_month[13] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
    if(GetDaysInYear(year_) == 366)
-     arr[2] = 29;
-     month_ = 1;
-     for(int i=1; i<13; i++){ // 해당년도에서 1월부터 그달의 날짜수를 빼면서 월을 증가 
-       if(arr[i]<days){
-         days -= arr[i];
-         month_++;
-       }
-       else//나머지는 일에  set 
-         day_ = days;
+     days_in_month[2] = 29;
+   
+   month_ = 1;
+   for(int i=1; i<13; i++){ // 해당년도에서 1월부터 그달의 날짜수를 빼면서 월을 증가 
+     if(days_in_month[i]<days){
+       days -= days_in_month[i];
+       month_++;
      }
+     else//나머지는 일에  set 
+       day_ = days;
+   }
 }
+
 // 받은 날짜가 현재년도에서 몇일째인지 리턴하는함수 
 int Date::ComputeDaysFromYearStart(int year, int month, int day){
-    int arr[13] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-    if(year%4==0 && year%100!=0){
-      arr[2] = 29;
+    int days_in_month[13] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    if(year%4==0 && year%100!=0 || year%400==0){
+      days_in_month[2] = 29;
     }
-    if(year%400==0){
-      arr[2] = 29;
-    }
+    
     int totalday=0;
     for(int i=1; i<month; i++){ //month 전달 까지의 일수를 다 더함 
-      totalday +=arr[i];
+      totalday +=days_in_month[i];
     }
     totalday+= day;//마지막으로 현재 day를 더함 
     return totalday;
 }
+
 //윤년인지 아닌지판단해서 365일인지 366일인지 리턴시키는함수 
 int Date::GetDaysInYear(int year){
    if(year%4==0 && year%100!=0){
