@@ -17,7 +17,7 @@ class WorldClock {
         
         void AddTimezoneInfo(const string& city, int diff);
         
-        bool SetTimezone(const string& timezone);
+        static bool SetTimezone(const string& timezone);
         
         int hour() const {return hour_;}
         int minute () const { return minute_;}
@@ -28,7 +28,7 @@ class WorldClock {
         
         int hour_, minute_, second_;
         int time_difference_;
-        map<string, int> timezone_;
+        static map<string, int> timezone_;
 };
 
 struct InvalidTimeException {
