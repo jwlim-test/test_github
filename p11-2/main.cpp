@@ -1,5 +1,7 @@
 #include "date.h"
 
+using namespace std;
+
 int main(){
     Date date;
     string cmd;

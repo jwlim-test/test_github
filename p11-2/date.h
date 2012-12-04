@@ -1,9 +1,8 @@
 #include <string.h>
-#include <sstream>
 #include <stdlib.h>
 #include <iostream>
 
-using namespace std;
+
 
 class Date{
     public:
@@ -20,14 +19,7 @@ class Date{
     private:
         
         static int GetDaysInYear(int year){
-            //윤년일 경우 366일을 반환 
-            if(year%4==0 && year%100!=0)
-                                         return 366; 
-             
-            else if(year%400==0) 
-                                 return 366;
-            //윤년이 아닐 경우 365일을 반환 
-            else return 365; 
+               return ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) ? 366 : 365; 
         }
         static int ComputeDayFromYearStart(int year, int month, int day){
             int Feb_, sum=0;
@@ -61,10 +53,10 @@ class Date{
 
 
 struct InvalidDataException {
-    string input_date;
-    InvalidDataException(const string& str) : input_date(str) {}
+    std::string input_date;
+    InvalidDataException(const std::string& str) : input_date(str) {}
 };
 
-ostream& operator<< (ostream& os, const Date& c);
-istream& operator>> (istream& is, Date& c);
+std::ostream& operator<< (std::ostream& os, const Date& c);
+std::istream& operator>> (std::istream& is, Date& c);
                                              
