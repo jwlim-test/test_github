@@ -4,13 +4,11 @@
 using namespace std;
 // type이 복리인지 단지인지 구분하고 그에 맞는 class를 리턴시킨다 
 Account* CreateAccount(const string& type, const string& name, unsigned int balance, double interest_rate){
-  Account * account = new Account(name, balance, interest_rate);
-  SavingAccount * sacc= new SavingAccount(name, balance, interest_rate);
-  if(type == account->type()){
-    return account;
+  if(type == "normal"){
+    return new Account(name, balance, interest_rate);
   }
-  else if(type == sacc->type()){
-    return sacc;
+  else if(type == "saving"){
+    return new SavingAccount(name, balance, interest_rate);
   }
   else
     return NULL; 
