@@ -2,54 +2,45 @@
 #include <set>
 #include <map>
 #include <string>
-using namespace std;
 
 
 template <typename T>
-set<T> operator+(const set<T>& lhs, const set<T>& rhs){//set은 중복되지 않으므로 lhs와 rhs원소를 다 넣음 
-    set<T> s;
-    for(typename set<T>::const_iterator it = lhs.begin(); it!= lhs.end(); ++it){
-        s.insert(*it);
+std::set<T> operator+(const std::set<T>& lhs, const std::set<T>& rhs){//set은 중복되지 않으므로 lhs와 rhs원소를 다 넣음 
+  std::set<T> s(lhs);
+  for(typename std::set<T>::const_iterator its = rhs.begin(); its!=rhs.end(); ++its){
+    if(lhs.find(*its) == lhs.end()){
+      s.insert(*its);
     }
-    for(typename set<T>::const_iterator its = rhs.begin(); its!=rhs.end(); ++its){
-        s.insert(*its);
-    }
+  }
+  return s;
+}
+
+template <typename T>
+std::set<T> operator-(const std::set<T>& lhs, const std::set<T>& rhs){//lhs의 원소를 새로운 set에 넣은후 중복된 원소를 erase 
+  std::set<T> s(lhs);
+  for(typename std::set<T>::const_iterator its = rhs.begin(); its != rhs.end(); ++its){
+      if(lhs.find(its)!=lhs.end()){
+        s.erase(*its);
+      }
+  }
     return s;
 }
 
 template <typename T>
-set<T> operator-(const set<T>& lhs, const set<T>& rhs){//lhs의 원소를 새로운 set에 넣은후 중복된 원소를 erase 
-    set<T> s;
-    for(typename set<T>::const_iterator it = lhs.begin(); it!= lhs.end(); ++it){
-        s.insert(*it);
+std::set<T> operator*(const std::set<T>& lhs, const std::set<T>& rhs){ // lhs와 rhs의 중복된 원소를 s에 넣음 
+  std::set<T> s;
+  for(typename std::set<T>::const_iterator its = rhs.begin(); its != rhs.end(); ++its){
+    if(lhs.find(its)!=lhs.end()){
+      s.insert(*its);
     }
-    for(typename set<T>::const_iterator it = lhs.begin(); it !=lhs.end(); ++it){
-        for(typename set<T>::const_iterator its = rhs.begin(); its != rhs.end(); ++its){
-            if(*it == *its){
-                s.erase(*it);
-            }
-        }
-    }
+  }
     return s;
 }
 
 template <typename T>
-set<T> operator*(const set<T>& lhs, const set<T>& rhs){ // lhs와 rhs의 중복된 원소를 s에 넣음 
-    set<T> s;
-    for(typename set<T>::const_iterator it = lhs.begin(); it !=lhs.end(); ++it){
-        for(typename set<T>::const_iterator its = rhs.begin(); its != rhs.end(); ++its){
-            if(*it == *its){
-                s.insert(*it);
-            }
-        }
-    }
-    return s;
-}
-
-template <typename T>
-ostream& operator<<(ostream& os, const set<T>& s){ // S의 원소 출력 
+std::ostream& operator<<(std::ostream& os, const std::set<T>& s){ // S의 원소 출력 
     os<<"{ ";
-    for(typename set<T>::const_iterator it = s.begin(); it!= s.end(); ++it){
+    for(typename std::set<T>::const_iterator it = s.begin(); it!= s.end(); ++it){
         os<<*it<<" ";
     }
     os<<"}";
@@ -57,7 +48,7 @@ ostream& operator<<(ostream& os, const set<T>& s){ // S의 원소 출력
 }
 
 template <typename T>
-istream& operator>>(istream& is, set<T>& s){ // S의 원소를 입력받음 
+std::istream& operator>>(std::istream& is, std::set<T>& s){ // S의 원소를 입력받음 
     int num;
     T a;
     is>>num;
@@ -69,11 +60,10 @@ istream& operator>>(istream& is, set<T>& s){ // S의 원소를 입력받음
 }
 
 template <typename T, typename S> // set<S> 를 set<T>로 변환 
-set<T> Cast(const set<S>& s){
-    set<T> se;
-    for(typename set<S>::const_iterator it = s.begin(); it!=s.end();++it){
-        se.insert(static_cast<T>(*it));
-    }
-    return se;
+std::set<T> Cast(const std::set<S>& s){
+  std::set<T> se;
+  for(typename std::set<S>::const_iterator it = s.begin(); it!=s.end();++it){
+     se.insert(static_cast<T>(*it));
+  }
+  return se;
 }
-
