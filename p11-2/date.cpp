@@ -101,6 +101,36 @@ bool Date :: SetDate(int year, int month, int day)
     year_=year;
     month_=month;
     day_=day;
+
+    if( ((year_%4 ==0 && year_%100!=0)||year_%400==0))
+    {
+      if(month_ != 2 && day_ != 29)
+      {
+        if(calendar[month_-1]<day_)
+        {
+          InvalidDateException K(a);
+          throw K
+          return false;
+        }
+      }
+    }
+
+    if( month_>12 || month_<1)
+    {
+      InvalidDateException K(a);
+      throw K;
+      return false;
+    }
+
+    if( !((year_%4==0 && year_%100!=0) || year_%400==0) )
+    {
+      if(calendar[month_-1] < day_)
+      {
+        InvalidDateException K(a);
+        throw K;
+        return false;
+      }
+    }
     
     return true;
 }
@@ -131,22 +161,8 @@ int Date :: GetDaysInYear(int year)
 int Date :: ComputeDaysFromYearStart(int year, int month, int day)
 {
     
-    if( GetDaysInYear(year) == 366 )
-    {
-        int sum=0;
-        for(int i=0;i<month-1;i++)
-        sum += calendar[i];
-        
-        if(month>=2)
-        sum++;
-        
-        sum += day;   
-        
-        return sum;
-    }
+    if( GetDaysInYear(year) == 366 && month >=2 )++sum;
     
-    else
-    {
         int sum=0;
         for(int i=0;i<month;i++)
         sum += calendar[i];
@@ -154,37 +170,23 @@ int Date :: ComputeDaysFromYearStart(int year, int month, int day)
         sum += day;
         
         return sum;
-    }
-    
 }
 
-ostream& operator<<(ostream& os, const Date& c)
-{
-    os << c.year()<<"."<<c.month()<<"."<<c.day();
-    return os;   
-}
 istream& operator>>(istream& is, Date& c)
 {
-    char txt[100];
+    string input;
     string a;
-    string b;
-    string d;
-    
-    is >> txt;
-
+    is >> input;
+    char *buf = strdup(input.c_str());
     
     char *token[3];
     
-    token[0] = strtok(txt,".");
+    token[0] = strtok(buf.".");
     token[1] = strtok(NULL,".");
     token[2] = strtok(NULL,".");
 
-    //cout << token[0] <<" "<< token[1] <<" "<< token[2] << endl;
     
-    a = token[0];
-    b = token[1];
-    d = token[2];
-    a =a+"."+b+"."+d;
+    a =token[0]+"."+token[1]+"."+token[2];
     //cout << a;
     
     
@@ -193,33 +195,6 @@ istream& operator>>(istream& is, Date& c)
     m = atoi(token[1]);
     s = atoi(token[2]);
     
-    
-    if( ((h%4==0 && h%100!=0) || h%400==0) )
-    {
-        if( m != 2 && s != 29 )
-        {
-            if( c.calendar[m-1] < s )
-            {
-                InvalidDateException K(a);
-                throw K;
-            }
-        }
-    }
-    
-    if( m>12 || m<1)
-    {
-        InvalidDateException K(a);
-        throw K;
-    }
-    
-    if( !((h%4==0 && h%100!=0) || h%400==0) )
-    {
-        if( c.calendar[m-1] < s )
-        {
-            InvalidDateException K(a);
-            throw K;
-        }
-    }
     
     c.SetDate(h,m,s);
     

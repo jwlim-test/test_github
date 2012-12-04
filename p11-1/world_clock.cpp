@@ -26,8 +26,6 @@ void WorldClock :: Tick(int seconds)
     
     c_s = seconds;
     
-    //cout<<"h :"<<c_h<<" m :"<<c_m<<" s :"<<c_s<<endl;;
-    
     time_h += c_h;
     time_m += c_m;
     time_s += c_s;
@@ -42,11 +40,8 @@ bool WorldClock :: LoadTimezoneFromFile(const string& file_path)
 {    
    
 }
-        // 잘못된 값 입력시 false 리턴하고 원래 시간은 바뀌지 않음.
 bool WorldClock :: SetTimezone(const string& timezone)
 {
-    //cout <<timezone<<endl;
-    //cout <<ig[timezone]<<endl;
     if( ig[timezone] == 0)
     {
         cout<<(time_h+ig[timezone])%24<<":"<<time_m<<":"<<time_s<<endl;
@@ -61,7 +56,6 @@ bool WorldClock :: SetTimezone(const string& timezone)
 void WorldClock :: AddTimezoneInfo(const string& city, int diff)
 {
     ig[city] = diff;
-   // cout <<ig[city]<<endl;
 }
 
 int WorldClock :: hour() const

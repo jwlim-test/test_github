@@ -11,12 +11,12 @@ class WorldClock
         // Timezone 관련 정보는 아래 변수에 저장. 시차는 시간 단위로만 계산.
         int time_difference_;
         //static map<string, int> timezone_;
-        map<string,int> ig;
-    
-    public:
+        static map<string,int> ig;
         int time_h;
         int time_m;
         int time_s;
+    
+    public:
         WorldClock();
         WorldClock(int hour, int minute, int second);
         
@@ -25,7 +25,7 @@ class WorldClock
         bool SetTime(int hour, int minute, int second);
         static bool LoadTimezoneFromFile(const string& file_path);
         // 잘못된 값 입력시 false 리턴하고 원래 시간은 바뀌지 않음.
-        void AddTimezoneInfo(const string& city, int diff);
+        static void AddTimezoneInfo(const string& city, int diff);
         
         bool SetTimezone(const string& timezone);
         int hour() const;
