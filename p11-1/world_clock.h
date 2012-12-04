@@ -2,8 +2,6 @@
 #include <string>
 #include <map>
 
-using namespace std;
-
 class WorldClock {
   public:
     WorldClock() : time_difference_(0) {}
