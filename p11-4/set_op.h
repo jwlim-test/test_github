@@ -86,10 +86,6 @@ istream& operator>>(istream& is, set<T>& s)
 template <typename T, typename S>
 set<T> Cast(const set<S>& s)
 {
-
-    int i=0;
-    int j=0;
-            
     set<T> ret;
     set<int>::iterator it=s.begin();
     for(;it!=s.end();it++)

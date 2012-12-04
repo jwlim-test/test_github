@@ -11,9 +11,13 @@ Account :: ~Account()
 }
 void Account :: Deposit(unsigned int amount)
 {
+  balance_+amount;
 }
 bool Account :: Withdraw(unsigned int amount)
 {
+  if (amount>balance_) return false;
+  balance_-amount;
+  return true;
 }
 unsigned int Account:: ComputeExpectedBalance(unsigned int n_years_later) const
 {
@@ -27,11 +31,11 @@ SavingAccount :: SavingAccount(const string& name, int balance, double interest_
 {
 }
 
-SavingAccount :: ~SavingAccount() //: Account(name,balance,interest_rate)      // 이 타입의 계좌는 복리로 계산.
+SavingAccount :: ~SavingAccount()
 {
 }
 
-unsigned int SavingAccount :: ComputeExpectedBalance(unsigned int n_years_later) const //: Account(name,balance,interest_rate)
+unsigned int SavingAccount :: ComputeExpectedBalance(unsigned int n_years_later) const 
 {
     unsigned int init;
     float expect=balance_;
@@ -57,4 +61,6 @@ Account* CreateAccount(const string& type,const string& name, unsigned int balan
         q = new SavingAccount (name,balance,interest_rate);
         return q;
     }
+
+    return NULL;
 }

@@ -21,7 +21,7 @@ class Account
     protected:
         string name_;
         unsigned int balance_;
-        double interest_rate_; // 기본 계좌는 단리로 계산.
+        double interest_rate_;
 };
 
 class SavingAccount : public Account 
@@ -30,7 +30,7 @@ class SavingAccount : public Account
         SavingAccount(const string& name, int balance, double interest_rate);
         virtual ~SavingAccount();
         virtual const char* type() const { return "saving"; }
-        // 이 타입의 계좌는 복리로 계산.
+        
         virtual unsigned int ComputeExpectedBalance(unsigned int n_years_later) const;
 };
 

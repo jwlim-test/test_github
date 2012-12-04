@@ -130,7 +130,7 @@ bool Date::SetDate(int year, int month, int day){
   if (month==2 && GetDaysInYear(year)==365 && day>28)
     return false;
 
-  if (month>8 && month%2==0 && day>31)
+  if (month>=8 && month%2==0 && day>31)
     return false;
 
   if (month>8 && month%2==1 && day>30)

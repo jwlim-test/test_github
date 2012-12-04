@@ -58,5 +58,6 @@ int main()
             }
         }
     }
+    accounts.clear();
 return 0;
 }

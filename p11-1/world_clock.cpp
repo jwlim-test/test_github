@@ -24,15 +24,17 @@ void WorldClock::AddTimezoneInfo(const string& city, int diff){
 
 bool WorldClock::SetTimezone(const string& timezone){
   map<string, int>::const_iterator it=timezone_.find(timezone);
-  time_difference_=it->second;
+  if (it==timezone_.end()) time_difference_=0;
+  else
+    time_difference_=it->second;
 }
 
 int WorldClock::hour() const{
-  return second_/3600;
+  return (second_/3600)%24;
 }
 
 int WorldClock::minute() const{
-  return (second_-hour()*3600)/60;
+  return (second_%3600)/60;
 }
 
 int WorldClock::second() const{
@@ -70,9 +72,6 @@ istream& operator>>(istream& is, WorldClock& c){
   minute=atoi((a.substr(j+1,k)).c_str());
   second=atoi((a.substr(k+1,a.size())).c_str());
 
-  if (hour>=24 || minute>=60 || second>=60 || hour<0 || minute<0 || second<0)
-    throw InvalidTimeException(a); 
-
-  c.SetTime(hour, minute, second);
+  if(!c.SetTime(hour, minute, second)) throw InvalidTimeException(a);
   return is;
 }
