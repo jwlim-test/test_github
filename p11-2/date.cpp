@@ -3,6 +3,42 @@
 
 using namespace std;
 
+int Date::YM[12];            //static 으로선언해서 class내에서 전역변수로 사용 
+int Date::M[12];             //static function에서 사용하기위함 
+
+ostream& operator<<(ostream& os, const Date& c){         // 달력날짜를 출력하는 부분!! 
+    cout<<c.year()<<"."<<c.month()<<"."<<c.day();
+    return os;
+}
+
+istream& operator>>(istream& is, Date& c){               // 11-1번과 마찬가지로 string을 한번에 받아서 해,달,월로 나눈다. 
+    string dates, last1, last2;                          
+    string year, month, day;
+    bool okay;
+    int Y,M,D;
+    size_t check1, check2;
+    cin>>dates;
+    check1 = dates.find(".");                            // "."을 기준으로 해,달,월을 나눈다 
+    year = dates.substr(0, check1);
+    last1 = dates.substr(check1+1, dates.size());
+    check2 = last1.find(".");
+    month = last1.substr(0, check2);
+    day = last1.substr(check2+1, last1.size());
+    
+    Y = atoi(year.c_str());
+    M = atoi(month.c_str());
+    D = atoi(day.c_str());
+    Date DATE(Y,M,D);
+    okay = DATE.SetDate(Y,M,D);
+    if(okay == true)
+        c = DATE;
+    else{
+        InvalidDateException IVDE(dates);
+        throw IVDE;
+    }    
+    return is;
+}
+
 int Date :: GetDaysInYear(int year){           // 윤년인지 아닌지를 검사하는 함수 
     if((year%4)==0 && (year%100)!=0)           // 4로 나눠지는데 100으로는 안나눠지는경우 == 윤년조건 
         return 366;
@@ -14,59 +50,29 @@ int Date :: GetDaysInYear(int year){           // 윤년인지 아닌지를 검사하는 함�
 
 int Date :: ComputeDaysFromYearStart(int year, int month, int day){     // 셋팅된 해의 1월1일 부터 셋팅된날까지의 날수계산!! 
     int DATE=0;
-    if(GetDaysInYear(year) == 366){                    // 윤년일경우 2월은 29일로 계산하기때문에 짝수달 for문돌릴시를 대비해 미리-1해준다 
-        if(month > 8)                                  // 8은 예외로 짝수달이지만 31일이므로 +1해준다 
-            DATE+=1;
-        if(month > 2)
-            DATE-=1;
-        for(int i=0;i<month/2;i++)                     //홀수달 +31 
-            DATE += 31;
-        if(month%2 ==0){                               //짝수달 +30 인데 이때 8월이면 짝수달이 4번이아닌 3번이므로 -1해주고 3번돌린다 
-            for(int i=0;i<(month/2)-1;i++)             
-                DATE += 30;
-        }
-        else {
-            for(int i=0;i<(month/2);i++)               //짝수달 +30 2,4,6,8,10월 등이아닌 달이셋팅된 달이면 그냥 계산 
-                DATE += 30;
-        }
-        DATE += day-1;
-        return DATE;
+    if(GetDaysInYear(year) == 366){                    // 윤년일경우 YM으로 매달 몇일인지를 더해준다 
+        for(int i=1;i<month;i++)
+            DATE+=YM[i];
     }
-    else {                                             // 윤년이 아닌경우 2월은 28일 이므로 -2해주고 시작한다. 나머지위와동일! 
-        if(month > 8)
-            DATE+=1;
-        if(month > 2)
-            DATE-=2;
-        for(int i=0;i<month/2;i++)
-            DATE += 31;
-        if(month%2 ==0){
-            for(int i=0;i<(month/2)-1;i++)
-                DATE += 30;
-        }
-        else {
-            for(int i=0;i<(month/2);i++)
-                DATE += 30;
-        }
-        DATE +=day-1;
-        return DATE;
+    else {                                             // 윤년이 아닌경우 M으로 매달 몇일인지를 더해준다 
+        for(int i=1;i<month;i++)
+            DATE+=M[i];
     }
+     DATE += day-1;
+     return DATE;
 }
 
 bool Date :: SetDate(int year, int month, int day){       // 입력된 해,달,월이 타당한 값이면 true return 아니면 false return 
     if(GetDaysInYear(year) == 366){
         if(YM[month] < day)
             return false;
-        if(day < 0 || month < 1 || month >12)
-            return false;
-        else 
-           return true;
     }
     else {
         if(M[month] < day)
             return false;
-        if(day < 0 || month < 1 || month >12)
-            return false;
-        else 
-           return true;
     }
+    if(day < 0 || month < 1 || month >12)             // 공통부분은 한번만 써준다. 
+        return false;
+    else 
+        return true;
 }
