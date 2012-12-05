@@ -5,8 +5,6 @@
 
 using namespace std;
 
-Account* CreateAccount(const string& type, const string& name, unsigned int balance, double interest_rate);
-
 int main(void) {
     vector<Account*> accounts;
     string cmd;
@@ -54,6 +52,8 @@ int main(void) {
             }
         }
     }
+    for (int i = 0; i < accounts.size(); ++i)
+        delete accounts[i];
     return 0;
 }
 
@@ -70,6 +70,6 @@ Account* CreateAccount(const string& type, const string& name, unsigned int bala
         return saving_account;
     }
     else {
-        return 0;
+        return NULL;
     }
 }

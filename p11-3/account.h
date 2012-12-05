@@ -16,12 +16,17 @@ class Account {
             balance_ += amount;
         }
         bool Withdraw(unsigned int amount){   //인출함수 받아온 amount만큼 잔고에서 빼간다. 
-            balance_ -= amount;
+            if(amount > balance_ )
+                return false;
+            else {
+                balance_ -= amount;
+                return true;
+            }
         }
         virtual unsigned int ComputeExpectedBalance(unsigned int n_years_later) const{   //normal계좌의 n년 이후의 계좌상황을 출력 
             double COUNT = 0;
             COUNT = (balance_) + (balance_ * interest_rate_ * n_years_later);     //원리합계에서 단리로 계산하면 되므로 
-            return (unsigned int)(COUNT);                                         //잔고 + 잔고*이자율*n을해서 return해주면된다. 
+            return static_cast<unsigned int>(COUNT);                                         //잔고 + 잔고*이자율*n을해서 return해주면된다. 
         }
         virtual const char* type() const { return "normal"; }                     //계좌형태 return 
         const unsigned int& balance() const { return balance_; }                  //잔고 return 
@@ -45,6 +50,8 @@ class SavingAccount : public Account {    //나머지는 normal계좌랑 같고 복리계산�
             for(int i=0;i<n_years_later;i++){                                       //잔고 = 잔고 + 잔고*이자율로 계속증가한다. 
                 COUNT = COUNT + (COUNT * interest_rate_);
             }
-            return (unsigned int)(COUNT);
+            return static_cast<unsigned int>(COUNT);
         }
 };
+
+Account* CreateAccount(const string& type, const string& name, unsigned int balance, double interest_rate);

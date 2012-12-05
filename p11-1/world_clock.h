@@ -18,7 +18,7 @@ class WorldClock {
         void Tick(int seconds = 1){             // dafalut값으로 1을 설정해놓고 parametor가 들어오지않을 경우 1로 받아들여 계산한다. 
             if(seconds == 1){
                 SECOND += 1;
-            if(SECOND < 0){
+                if(SECOND < 0){
                     MINUTE -= 1;
                     SECOND += 60;
                 }
@@ -39,7 +39,6 @@ class WorldClock {
                 }
                 if(HOUR >= 24)
                     HOUR -= 24;
-            
             }
             else {                              // tick 1이아닌 다른 값이 들어올경우 hour, minute, second 추가값을 다 나누어주어야한다. 
                 int Plus_h, Plus_m, Plus_s, last1, last2;
@@ -76,7 +75,7 @@ class WorldClock {
             }    
         }
         bool SetTime(int hour, int minute, int second){   //  hour, minute, second가 올바른 값인지 확인 
-            if(hour >= 24  || minute >= 60 || second >= 60)
+            if(hour >= 24  || minute >= 60 || second >= 60 || hour <0 || minute < 0 ||second < 0)
                 return false;
             else {
                 HOUR = hour;
@@ -107,5 +106,6 @@ struct InvalidTimeException {
     InvalidTimeException(const string& str) : input_time(str) {}
 };
 // hh:mm:ss 형식으로 입출력. 표준시가 아닌 경우 (+xx) 형식으로 시차를 표시.
-
+ostream& operator<<(ostream& os, const WorldClock& c);
+istream& operator>>(istream& is, WorldClock& c);
 
